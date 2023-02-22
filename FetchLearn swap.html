@@ -7,75 +7,74 @@
 <!-- Task2 利用 fetch 实现货币汇率转换项目,选择国家以获得特定金额的汇率计算-->
 <!DOCTYPE html>
 <html>
-<head>
-  
-</head>
-<body>
-<div name="topicChn">汇率计算器</div>
-<div name="topicEng">currency Converter</div>
-<div>输入金额</div>
-<input id="amount"></input>
-<div><span>基础货币</span>&nbsp&nbsp&nbsp
-    <span>目标货币</span>
-</div>
-<select id="basicCurrency">
-    <option value="CNY" selected>人民币</option>
-    <option value="USD">美元</option>
-    <option value="CAD">加币</option>
-    <option value="EUR">欧元</option>
-    <option value="JPY">日元</option>
-    <option value="KRW">韩元</option>
-</select>
-<button id="swapbtn"><~></button>
-<select id="targetCurrency">
-    <option value="CNY">人民币</option>
-    <option value="USD" selected>美元</option>
-    <option value="CAD">加币</option>
-    <option value="EUR">欧元</option>
-    <option value="JPY">日元</option>
-    <option value="KRW">韩元</option>
-</select>
-<div id="textArea">text</div>
-<button id="btn">获取汇率</button>
-</body>
-<script>
+  <head> </head>
+  <body>
+    <div name="topicChn">汇率计算器</div>
+    <div name="topicEng">currency Converter</div>
+    <div>输入金额</div>
+    <input id="amount" />
+    <div>
+      <span>基础货币</span>&nbsp&nbsp&nbsp
+      <span>目标货币</span>
+    </div>
+    <select id="basicCurrency">
+      <option value="CNY" selected>人民币</option>
+      <option value="USD">美元</option>
+      <option value="CAD">加币</option>
+      <option value="EUR">欧元</option>
+      <option value="JPY">日元</option>
+      <option value="KRW">韩元</option>
+    </select>
+    <button id="swapbtn"><~></button>
+    <select id="targetCurrency">
+      <option value="CNY">人民币</option>
+      <option value="USD" selected>美元</option>
+      <option value="CAD">加币</option>
+      <option value="EUR">欧元</option>
+      <option value="JPY">日元</option>
+      <option value="KRW">韩元</option>
+    </select>
+    <div id="textArea">text</div>
+    <button id="btn">获取汇率</button>
+  </body>
+  <script>
     const amt_EL = document.getElementById("amount");
-    const basicCrcy_EL=document.getElementById("basicCurrency");
-    const targetCrcy_EL=document.getElementById("targetCurrency"); 
+    const basicCrcy_EL = document.getElementById("basicCurrency");
+    const targetCrcy_EL = document.getElementById("targetCurrency");
 
-    function calculate(){
-        let amt = amt_EL.value;
-        let basicCrcy = basicCrcy_EL.value;
-        let targetCrcy = targetCrcy_EL.value;
-        console.log(amt);
-        console.log(basicCrcy);
-        console.log(targetCrcy);
-    fetch(`https://v6.exchangerate-api.com/v6/db6be6a69758392eb06f7863/latest/${basicCrcy}`)
-    .then(response=>response.json())
-    .then(data=> {console.log(data)
-        const rate = data.conversion_rates[targetCrcy];
-        console.log(rate);
-        document.getElementById("textArea").innerHTML=amt+basicCrcy+"="+(amt*rate).toFixed(2)+targetCrcy;
+    function calculate() {
+      let amt = amt_EL.value;
+      let basicCrcy = basicCrcy_EL.value;
+      let targetCrcy = targetCrcy_EL.value;
+      console.log(amt);
+      console.log(basicCrcy);
+      console.log(targetCrcy);
+      fetch(
+        `https://v6.exchangerate-api.com/v6/db6be6a69758392eb06f7863/latest/${basicCrcy}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          const rate = data.conversion_rates[targetCrcy];
+          console.log(rate);
+          document.getElementById("textArea").innerHTML =
+            amt + basicCrcy + "=" + (amt * rate).toFixed(2) + targetCrcy;
+        })
+        .catch((err) => console.log("Request Failed"));
     }
-    )
-    .catch(err=>console.log("Request Failed"))
-}
-document.getElementById("btn").addEventListener("click",()=>{   
-    calculate();
-}
-)
 
-function swap(){
+    document.getElementById("btn").addEventListener("click", () => {
+      calculate();
+    });
 
-let temp = basicCrcy_EL.value;
-basicCrcy_EL.value = targetCrcy_EL.value;
-targetCrcy_EL.value = temp;
-calculate()
-}
-document.getElementById("swapbtn").addEventListener("click",()=>{   
-    swap();
-}
-)
-
-</script>
+    function swap() {
+      let temp = basicCrcy_EL.value;
+      basicCrcy_EL.value = targetCrcy_EL.value;
+      targetCrcy_EL.value = temp;
+      calculate();
+    }
+    document.getElementById("swapbtn").addEventListener("click", () => {
+      swap();
+    });
+  </script>
 </html>
